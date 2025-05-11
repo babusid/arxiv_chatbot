@@ -42,6 +42,7 @@ class JobStatus(enum.Enum):
 # stores job status - eventually this should be a database table
 job_status_dict: dict[str, dict] = {}
 
+
 def convert_pdf_to_markdown(job_id: str, pdf_path: str) -> str:
     """
     Converts a PDF file to markdown using pymupdf4llm
@@ -50,7 +51,7 @@ def convert_pdf_to_markdown(job_id: str, pdf_path: str) -> str:
     os.close(fd)
     try:
         urlretrieve(pdf_path, path)
-        markdown = pymupdf4llm.to_markdown(path)
+        markdown = pymupdf4llm.to_markdown(path, embed_images=True)
     finally:
         # 4. No footprint left behind
         os.remove(path)
