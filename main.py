@@ -4,7 +4,7 @@ Main module for pdf -> markdown conversion API
 
 from fastapi import FastAPI, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
-import parser
+import md_parser
 
 origins = [
     "http://localhost",
@@ -36,7 +36,7 @@ def init_conversion(pdf_path: str, bg: BackgroundTasks):
     Starts the conversion process for the given PDF file,
     returns a job ID. Conversion should start in the background via a worker.
     """
-    return parser.add_parse_job(pdf_path, bg)
+    return md_parser.add_parse_job(pdf_path, bg)
 
 
 @app.get("/status/{job_id}")
@@ -44,7 +44,7 @@ def get_status(job_id: str):
     """
     Returns the status of the conversion job.
     """
-    return parser.get_parse_job_status(job_id)
+    return md_parser.get_parse_job_status(job_id)
 
 
 @app.get("/result/{job_id}")
@@ -52,4 +52,4 @@ def get_result(job_id: str):
     """
     Returns the result of the conversion job.
     """
-    return parser.get_parse_job_result(job_id)
+    return md_parser.get_parse_job_result(job_id)
